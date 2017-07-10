@@ -1,0 +1,1 @@
+render_user(json, user)

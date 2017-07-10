@@ -20,11 +20,30 @@ module ApiError
 
   class NotFound < Error
     def error
-      @error || 'not_found'
+      @error || 'record_not_found'
     end
 
     def status
       :not_found
     end
+
+    def message
+      @message || 'Record not found'
+    end
   end
+
+  class InvalidRecord < Error
+    def error
+      @error || 'invalid_record'
+    end
+
+    def message
+      @message || 'Invalid record parameters'
+    end
+
+    def status
+      :unprocessable_entity
+    end
+  end
+
 end
