@@ -6,6 +6,10 @@ class User < ApplicationRecord
 
   before_save :downcase_email
 
+  has_many :posts
+
+  default_scope { order(created_at: :asc) }
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   VALID_PASSWORD_REGEX = /\A[A-Za-z\d]+\z/
 
