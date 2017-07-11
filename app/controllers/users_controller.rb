@@ -10,6 +10,17 @@ class UsersController < BaseController
     param :email, String, '', required: true, allow_nil: false
   end
 
+  def_param_group :user_password do
+    param :password, String, '', required: true, allow_nil: false
+    param :password_confirmation, String, 'Must match password parametar', required: true, allow_nil: false
+  end
+
+  api! 'A list of all users'
+
+  def index
+    @users = User.all
+  end
+
   api! 'Renders user info for given user_id'
   param :id, String, 'User id', required: true, allow_nil: false
 
@@ -19,12 +30,9 @@ class UsersController < BaseController
     render :show, locals: { user: user }
   end
 
-  def index
-    @users = User.all
-  end
-
   api! 'Creates a user'
   param_group :user
+  param_group :user_password
 
   def create
     user = User.new user_params
@@ -35,15 +43,24 @@ class UsersController < BaseController
     end
   end
 
+  api! 'Updates a user'
+  param_group :user
+  param_group :user_password
+
   def update
     user = User.find_by_id(params[:id])
     raise NotFound.new('user_not_found', 'User not found!') if user.blank?
+    # todo: Update user
     render :update, locals: { user: user }
   end
 
+  api! 'Deletes a user'
+  param :id, String, 'User ID',required: true, allow_nil: false
+  
   def destroy
     user = User.find_by_id(params[:id])
     raise NotFound.new('user_not_found', 'User not found!') if user.blank?
+    # todo: destroy user
   end
 
   private
