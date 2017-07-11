@@ -19,16 +19,14 @@ class UsersController < BaseController
   param_group :pagination, BaseController
 
   def index
-    @users = User.all.page(params[:page]).per(params[:per_page])
+    super
   end
 
   api! 'Renders user info for given user_id'
   param :id, String, 'User id', required: true, allow_nil: false
 
   def show
-    user = User.find_by_id(params[:id])
-    raise NotFound.new('user_not_found', 'User not found!') if user.blank?
-    render :show, locals: { user: user }
+    super
   end
 
   api! 'Creates a user'
@@ -36,12 +34,7 @@ class UsersController < BaseController
   param_group :user_password
 
   def create
-    user = User.new user_params
-    if user.save
-      render :create, locals: { user: user }
-    else
-      raise InvalidRecord.new('invalid_record', 'Unable to save user')
-    end
+    super
   end
 
   api! 'Updates a user'
@@ -49,24 +42,23 @@ class UsersController < BaseController
   param_group :user_password
 
   def update
-    user = User.find_by_id(params[:id])
-    raise NotFound.new('user_not_found', 'User not found!') if user.blank?
-    # todo: Update user
-    render :update, locals: { user: user }
+    super
   end
 
   api! 'Deletes a user'
   param :id, String, 'User ID',required: true, allow_nil: false
 
   def destroy
-    user = User.find_by_id(params[:id])
-    raise NotFound.new('user_not_found', 'User not found!') if user.blank?
-    # todo: destroy user
+    super
   end
 
   private
 
   def user_params
     params.permit(:first_name, :last_name, :nickname, :email, :password, :password_confirmation)
+  end
+
+  def query_params
+    params.permit(:id, :nickname, :email)
   end
 end

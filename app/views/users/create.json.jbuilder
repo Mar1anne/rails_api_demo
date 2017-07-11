@@ -1,1 +1,1 @@
-render_new_user(json, user)
+render_new_user(json, @user)

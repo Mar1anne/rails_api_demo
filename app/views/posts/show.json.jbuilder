@@ -1,1 +1,1 @@
-render_post(json, post)
+render_post(json, @post)
