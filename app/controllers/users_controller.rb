@@ -16,9 +16,10 @@ class UsersController < BaseController
   end
 
   api! 'A list of all users'
+  param_group :pagination, BaseController
 
   def index
-    @users = User.all
+    @users = User.all.page(params[:page]).per(params[:per_page])
   end
 
   api! 'Renders user info for given user_id'
@@ -56,7 +57,7 @@ class UsersController < BaseController
 
   api! 'Deletes a user'
   param :id, String, 'User ID',required: true, allow_nil: false
-  
+
   def destroy
     user = User.find_by_id(params[:id])
     raise NotFound.new('user_not_found', 'User not found!') if user.blank?

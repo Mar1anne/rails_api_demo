@@ -13,9 +13,10 @@ class PostsController < BaseController
 
   api! 'Returns a list of all posts for the specified user_id'
   param_group :post_info
+  param_group :pagination, BaseController
 
   def index
-    @posts = Post.all
+    @posts = Post.all.page(params[:page]).per(params[:per_page])
   end
 
   api! 'Returns the information for the specified post'

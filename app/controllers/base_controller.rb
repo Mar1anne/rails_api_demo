@@ -5,6 +5,11 @@ class BaseController < ApplicationController
     api_version '1.0'
   end
 
+  def_param_group :pagination do
+    param :page, String
+    param :per_page, String
+  end
+
   # Error Handling
   rescue_from(Error) { |e| handle_error(e) }
 
