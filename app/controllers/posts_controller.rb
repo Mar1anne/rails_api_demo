@@ -1,5 +1,4 @@
 class PostsController < BaseController
-  respond_to :json
 
   def_param_group :post_info do
     param :user_id, String, 'User ID', required: true, allow_nil: false

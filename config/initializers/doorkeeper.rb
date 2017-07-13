@@ -47,14 +47,14 @@ Doorkeeper.configure do
   # Define access token scopes for your provider
   # For more information go to
   # https://github.com/doorkeeper-gem/doorkeeper/wiki/Using-Scopes
-  # default_scopes  :public
+  default_scopes  :public
   # optional_scopes :write, :update
 
   # Change the way client credentials are retrieved from the request object.
   # By default it retrieves first from the `HTTP_AUTHORIZATION` header, then
   # falls back to the `:client_id` and `:client_secret` params from the `params` object.
   # Check out the wiki for more information on customization
-  # client_credentials :from_basic, :from_params
+  client_credentials :from_params
 
   # Change the way access token is authenticated from the request object.
   # By default it retrieves first from the `HTTP_AUTHORIZATION` header, then
@@ -92,6 +92,8 @@ Doorkeeper.configure do
   #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w(authorization_code client_credentials)
+
+  grant_flows ['client_credentials']
 
   # Under some circumstances you might want to have applications auto-approved,
   # so that the user skips the authorization step.

@@ -1,8 +1,5 @@
 class UsersController < BaseController
 
-  # before_action authorize except sign in
-  respond_to :json
-
   def_param_group :user do
     param :first_name, String, ''
     param :last_name, String, ''

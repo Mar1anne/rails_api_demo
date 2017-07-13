@@ -1,6 +1,10 @@
 class BaseController < ApplicationController
   include ApiError
+  respond_to :json
+
   before_action :set_resource, only: [:destroy, :show, :update]
+
+  before_action :doorkeeper_authorize!
 
   resource_description do
     api_version '1.0'
