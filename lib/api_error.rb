@@ -46,4 +46,29 @@ module ApiError
     end
   end
 
+  class UnauthorizedRequest < Error
+
+    def error
+      @error || 'unauthorized_request'
+    end
+
+    def status
+      :unauthorized
+    end
+  end
+
+  class MissingHeaderParam < Error
+
+    def error
+      @error || 'missing_header_param'
+    end
+
+    def status
+      :bad_request
+    end
+
+    def message
+      @message || 'Missing parameter from header'
+    end
+  end
 end

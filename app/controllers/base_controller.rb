@@ -1,10 +1,13 @@
 class BaseController < ApplicationController
   include ApiError
+  include Authenticable
+
   respond_to :json
 
   before_action :set_resource, only: [:destroy, :show, :update]
 
   before_action :doorkeeper_authorize!
+  before_action :authenticate_user!
 
   resource_description do
     api_version '1.0'
@@ -57,6 +60,18 @@ class BaseController < ApplicationController
     end
   end
 
+  # Authentication
+  def current_access_token
+    access_token = request.headers['HTTP_ACCESS_TOKEN']
+    raise MissingHeaderParam.new('missing_access_token') if access_token.blank?
+    access_token
+  end
+
+  def authenticate_user!
+    @current_user = User.find_by_access_token(current_access_token)
+    raise UnauthorizedRequest.new(nil, 'User access_token is invalid!') if @current_user.blank?
+  end
+
   # Error Handling
   rescue_from(Error) { |e| handle_error(e) }
 
@@ -97,7 +112,7 @@ class BaseController < ApplicationController
 
   # Override in each API controller to limit permitted params for the specific model
   def resource_params
-    @resource_paarams ||= self.send("#{resource_name}_params")
+    @resource_params ||= self.send("#{resource_name}_params")
   end
 
   def set_resource(resource = nil)

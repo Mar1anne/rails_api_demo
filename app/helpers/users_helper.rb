@@ -5,6 +5,6 @@ module UsersHelper
 
   def render_new_user(json, user)
     render_user(json, user)
-    # json.auth_token = user.auth_token
+    json.access_token user.access_token
   end
 end

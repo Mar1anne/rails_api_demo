@@ -14,4 +14,5 @@ AdminUser.create!(email: 'admin@example.com', password: 'password', password_con
               email: FFaker::Internet.email,
               password: '123456789',
               password_confirmation: '123456789')
+  
 end

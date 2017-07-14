@@ -16,6 +16,7 @@ ActiveAdmin.register User do
     column :email
     column :created_at
     column :updated_at
+    column :access_token
     actions
   end
 

@@ -1,15 +1,15 @@
 class UsersController < BaseController
-
+  
   def_param_group :user do
-    param :first_name, String, ''
-    param :last_name, String, ''
-    param :nickname, String, 'Must be unique', required: true, allow_nil: false
-    param :email, String, '', required: true, allow_nil: false
+    param :first_name, String
+    param :last_name, String
+    param :nickname, String, 'Must be unique', allow_nil: false
+    param :email, String, allow_nil: false
   end
 
   def_param_group :user_password do
-    param :password, String, '', required: true, allow_nil: false
-    param :password_confirmation, String, 'Must match password parametar', required: true, allow_nil: false
+    param :password, String, allow_nil: false
+    param :password_confirmation, String, 'Must match password parametar', allow_nil: false
   end
 
   api! 'A list of all users'
@@ -39,14 +39,21 @@ class UsersController < BaseController
   param_group :user_password
 
   def update
-    super
+    validate_current_user
+    if @current_user.update(user_params)
+      render :update
+    else
+      render json: get_resource.errors, status: :unprocessable_entity
+    end
   end
 
   api! 'Deletes a user'
   param :id, String, 'User ID',required: true, allow_nil: false
 
   def destroy
-    super
+    validate_current_user
+    @current_user.destroy
+    head :no_content
   end
 
   private
@@ -58,4 +65,11 @@ class UsersController < BaseController
   def query_params
     params.permit(:id, :nickname, :email)
   end
+
+  def validate_current_user
+    unless params[:id] && params[:id].eql?(@current_user.id.to_s)
+      raise UnauthorizedRequest.new(nil, 'Invalid user id!')
+    end
+  end
 end
+
