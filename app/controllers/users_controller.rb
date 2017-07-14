@@ -39,7 +39,6 @@ class UsersController < BaseController
   param_group :user_password
 
   def update
-    validate_current_user
     if @current_user.update(user_params)
       render :update
     else
@@ -51,7 +50,6 @@ class UsersController < BaseController
   param :id, String, 'User ID',required: true, allow_nil: false
 
   def destroy
-    validate_current_user
     @current_user.destroy
     head :no_content
   end
@@ -64,12 +62,6 @@ class UsersController < BaseController
 
   def query_params
     params.permit(:id, :nickname, :email)
-  end
-
-  def validate_current_user
-    unless params[:id] && params[:id].eql?(@current_user.id.to_s)
-      raise UnauthorizedRequest.new(nil, 'Invalid user id!')
-    end
   end
 end
 

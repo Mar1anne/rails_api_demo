@@ -9,6 +9,8 @@ class BaseController < ApplicationController
   before_action :doorkeeper_authorize!
   before_action :authenticate_user!
 
+  load_and_authorize_resource except: [:create]
+
   resource_description do
     api_version '1.0'
   end
@@ -74,6 +76,12 @@ class BaseController < ApplicationController
 
   # Error Handling
   rescue_from(Error) { |e| handle_error(e) }
+
+  rescue_from(CanCan::AccessDenied) do
+    respond_to do |format|
+      format.json { render json: { error: 'unauthorized', message: 'unauthorized' }, status: :unauthorized }
+    end
+  end
 
   private
 
