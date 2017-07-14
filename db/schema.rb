@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713122649) do
+ActiveRecord::Schema.define(version: 20170714152517) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -41,6 +41,17 @@ ActiveRecord::Schema.define(version: 20170713122649) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "city"
+    t.string "country"
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["latitude"], name: "index_locations_on_latitude"
+    t.index ["longitude"], name: "index_locations_on_longitude"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -87,6 +98,8 @@ ActiveRecord::Schema.define(version: 20170713122649) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.integer "location_id"
+    t.index ["location_id"], name: "index_posts_on_location_id"
     t.index ["title"], name: "index_posts_on_title"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
@@ -108,8 +121,10 @@ ActiveRecord::Schema.define(version: 20170713122649) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "access_token"
+    t.integer "location_id"
     t.index ["access_token"], name: "index_users_on_access_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["location_id"], name: "index_users_on_location_id"
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

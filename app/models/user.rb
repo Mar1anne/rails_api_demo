@@ -7,6 +7,7 @@ class User < ApplicationRecord
   before_save :downcase_email
 
   has_many :posts
+  belongs_to :location
 
   default_scope { order(created_at: :asc) }
 

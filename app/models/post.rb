@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
+  belongs_to :location
 
   default_scope { order(created_at: :asc) }
 
