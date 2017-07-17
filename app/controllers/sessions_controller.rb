@@ -1,6 +1,6 @@
 class SessionsController < BaseController
 
-  skip_before_action :authenticate_user!, only: [:create]
+  skip_before_action :authenticate_user_with_token!, only: [:create]
   skip_before_action :set_resource
 
   def create
