@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170714152517) do
+ActiveRecord::Schema.define(version: 20170717154422) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20170714152517) do
     t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "distance"
     t.index ["latitude"], name: "index_locations_on_latitude"
     t.index ["longitude"], name: "index_locations_on_longitude"
   end

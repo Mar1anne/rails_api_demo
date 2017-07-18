@@ -55,6 +55,6 @@ class PostsController < BaseController
   end
 
   def query_params
-    params.permit(:user_id, :id, :title)
+    params.permit(:user_id, :id, :title, :location_id)
   end
 end

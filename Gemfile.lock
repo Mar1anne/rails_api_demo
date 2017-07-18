@@ -94,6 +94,10 @@ GEM
     formtastic (3.1.5)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
+    geokit (1.11.0)
+    geokit-rails (2.2.0)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     has_scope (0.7.1)
@@ -259,6 +263,7 @@ DEPENDENCIES
   doorkeeper
   factory_girl_rails
   ffaker
+  geokit-rails
   jbuilder (~> 2.5)
   kaminari
   listen (>= 3.0.5, < 3.2)

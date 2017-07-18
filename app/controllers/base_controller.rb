@@ -62,6 +62,10 @@ class BaseController < ApplicationController
     end
   end
 
+  def location_params
+    params.require(:location).permit(:city, :country, :latitude, :longitude)
+  end
+
   # Error Handling
   rescue_from(Error) { |e| handle_error(e) }
 

@@ -70,5 +70,20 @@ module ApiError
     def message
       @message || 'Missing parameter from header'
     end
+
+  end
+
+  class InvalidRecordParameters < Error
+    def error
+      @error || 'invalid_parameters'
+    end
+
+    def status
+      :bad_request
+    end
+
+    def message
+      @message || 'Invalid parameters'
+    end
   end
 end

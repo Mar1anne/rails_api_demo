@@ -1,6 +1,6 @@
 module UsersHelper
   def render_user(json, user)
-    json.call(user, :id, :first_name, :last_name, :nickname, :created_at)
+    json.call(user, :id, :first_name, :last_name, :nickname, :created_at, :posts, :location_id)
   end
 
   def render_new_user(json, user)
