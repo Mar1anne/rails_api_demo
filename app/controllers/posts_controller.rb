@@ -30,7 +30,20 @@ class PostsController < BaseController
   param_group :post
 
   def create
-    super
+    @post = current_user.posts.build(post_params)
+    if location_params && !location_params.empty?
+      location = Location.new(location_params)
+      raise InvalidRecordParameters.new('invalid_location_params', 'Invalid location parameters') unless location.valid?
+      @post.location = Location.find_or_create_new(location)
+    elsif current_user.location
+      @post.location = current_user.location
+    end
+
+    if @post.save!
+      render :create
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
   end
 
   api! 'Updates a post'
@@ -38,7 +51,21 @@ class PostsController < BaseController
   param_group :post
 
   def update
-    super
+    @post = Post.find_by_id(params[:id])
+    if @post.update_attributes(post_params)
+      if location_params && !location_params.empty?
+        location = Location.new(location_params)
+        raise InvalidRecordParameters.new('invalid_location_params', 'Invalid location parameters') unless location.valid?
+        @post.location = Location.find_or_create_new(location)
+      end
+    end
+
+    if @post.save!
+      render :update
+    else
+      render json: @post.errors, status: :unprocessable_entity
+    end
+
   end
 
   api! 'Deletes a post'

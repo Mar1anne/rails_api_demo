@@ -48,9 +48,15 @@ class UsersController < BaseController
 
   def update
     if @current_user.update(user_params)
+      if location_params && !location_params.empty?
+        location = Location.new(location_params)
+        raise InvalidRecordParameters.new('invalid_location_params', 'Invalid location parameters') unless location.valid?
+        @current_user.location = Location.find_or_create_new(location)
+        @current_user.save!
+      end
       render :update
     else
-      render json: get_resource.errors, status: :unprocessable_entity
+      render json: @current_user.errors, status: :unprocessable_entity
     end
   end
 
