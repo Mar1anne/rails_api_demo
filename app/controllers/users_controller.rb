@@ -32,11 +32,10 @@ class UsersController < BaseController
 
   def create
     @user = User.new user_params
-    raise InvalidRecord.new(nil) unless @user.valid?
 
     if location_params && !location_params.empty?
       location = Location.new location_params
-      raise InvalidRecordParameters.new() unless location.valid?
+      raise InvalidRecordParameters.new('invalid_location_params', 'Invalid location parameters') unless location.valid?
       @user.location = Location.find_or_create_new(location)
     end
 

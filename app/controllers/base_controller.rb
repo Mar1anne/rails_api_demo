@@ -68,12 +68,10 @@ class BaseController < ApplicationController
 
   # Error Handling
   rescue_from(Error) { |e| handle_error(e) }
-
-  rescue_from(CanCan::AccessDenied) do
-    respond_to do |format|
-      format.json { render json: { error: 'unauthorized', message: 'unauthorized' }, status: :unauthorized }
-    end
-  end
+  rescue_from(Apipie::ParamMissing) { |e| handle_error(MissingParam.new(nil, e.message)) }
+  rescue_from(Apipie::ParamInvalid) { |e| handle_error(InvalidParam.new(nil, e.message)) }
+  rescue_from(ActiveRecord::RecordInvalid) { |e| handle_error(InvalidRecord.new(nil, e.message)) }
+  rescue_from(CanCan::AccessDenied) { |e| handle_error(UnauthorizedRequest.new(nil, e.message ))}
 
   private
 

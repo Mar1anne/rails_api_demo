@@ -18,6 +18,17 @@ module ApiError
     end
   end
 
+  class UnauthorizedRequest < Error
+
+    def error
+      @error || 'unauthorized_request'
+    end
+
+    def status
+      :unauthorized
+    end
+  end
+
   class NotFound < Error
     def error
       @error || 'record_not_found'
@@ -84,6 +95,32 @@ module ApiError
 
     def message
       @message || 'Invalid parameters'
+    end
+  end
+
+  class InvalidParam < Error
+
+    def error
+      @error || 'invalid_param'
+    end
+
+    def status
+      :bad_request
+    end
+
+    def message
+      @message || 'Invalid parameter'
+    end
+  end
+
+  class MissingParam < Error
+
+    def error
+      @error || 'missing_param'
+    end
+
+    def status
+      :bad_request
     end
   end
 end
